@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "Combatabt.generated.h"
+#include "Combatant.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
-class UCombatabt : public UInterface
+class UCombatant : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -17,7 +17,7 @@ class UCombatabt : public UInterface
  * Combat state enum and interface for actors that can perform attacks/guards.
  */
 UENUM(BlueprintType)
-enum class ECombatState : uint8
+enum class EAPCombatState : uint8
 {
 	Idle            UMETA(DisplayName = "Idle"),
 	WeakAttacking   UMETA(DisplayName = "Weak Attacking"),
@@ -31,21 +31,21 @@ enum class ECombatState : uint8
 /**
  * 
  */
-class APGAME_API ICombatabt
+class APGAME_API ICombatant
 {
 	GENERATED_BODY()
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	// State-based accessors (preferred for extensibility)
-	virtual ECombatState GetCombatState() const = 0;
-	virtual void SetCombatState(ECombatState NewState) = 0;
+	virtual EAPCombatState GetCombatState() const = 0;
+	virtual void SetCombatState(EAPCombatState NewState) = 0;
 
 	// Attacks
 	virtual void WeakAttack() = 0;
 	virtual void StrongAttack() = 0;
 
 	// Convenience helpers that use the state accessors. Implementing classes may override if needed.
-	virtual bool IsGuarded() const { return GetCombatState() == ECombatState::Guarding; }
-	virtual void Guard() { SetCombatState(ECombatState::Guarding); }
+	virtual bool IsGuarded() const { return GetCombatState() == EAPCombatState::Guarding; }
+	virtual void Guard() { SetCombatState(EAPCombatState::Guarding); }
 };
